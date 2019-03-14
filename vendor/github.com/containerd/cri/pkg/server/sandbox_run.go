@@ -549,10 +549,12 @@ func (c *criService) setupPod(id string, path string, config *runtime.PodSandbox
 		return "", errors.New("cni config not intialized")
 	}
 
+	fip := cni.CreateFloatingIP(config.GetAnnotations())
 	labels := getPodCNILabels(id, config)
 	result, err := c.netPlugin.Setup(id,
 		path,
 		cni.WithLabels(labels),
+		cni.WithCapabilityFloatingIP(fip),
 		cni.WithCapabilityPortMap(toCNIPortMappings(config.GetPortMappings())))
 	if err != nil {
 		return "", err

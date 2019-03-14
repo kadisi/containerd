@@ -33,6 +33,15 @@ func WithCapabilityIPRanges(ipRanges []IPRanges) NamespaceOpts {
 	}
 }
 
+func WithCapabilityFloatingIP(fip FloatingIP) NamespaceOpts {
+	return func(c *Namespace) error {
+		if fip != nil {
+			c.capabilityArgs["floatingip"] = fip
+		}
+		return nil
+	}
+}
+
 func WithCapability(name string, capability interface{}) NamespaceOpts {
 	return func(c *Namespace) error {
 		c.capabilityArgs[name] = capability

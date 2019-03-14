@@ -22,6 +22,15 @@ const (
 	DefaultCNIDir        = "/opt/cni/bin"
 	VendorCNIDirTemplate = "%s/opt/%s/bin"
 	DefaultPrefix        = "eth"
+
+	// AnnotationPodFloatingIP is in pod annotation
+	AnnotationPodFloatingIP = "wocloud.cn/floating-ip"
+	// AnnotationPodSubnet is in pod annotation
+	AnnotationPodSubnet = "wocloud.cn/floating-subnet"
+	// AnnotationPodGateway is in pod annotation
+	AnnotationPodGateway = "wocloud.cn/floating-gateway"
+	// AnnotationPodVlan is in pod annotation
+	AnnotationPodVlan = "wocloud.cn/floating-vlan"
 )
 
 type config struct {
@@ -42,4 +51,41 @@ type IPRanges struct {
 	RangeStart string
 	RangeEnd   string
 	Gateway    string
+}
+
+type FloatingIP struct {
+	Ip      string
+	Subnet  string
+	Gateway string
+	// Vlan is -1 stand for no vlan
+	Vlan string
+}
+
+func CreateFloatingIP(annotation map[string]string) *FloatingIP {
+	f := new(FloatingIP)
+
+	if v, ok := annotation[AnnotationPodFloatingIP]; !ok {
+		return nil
+	} else {
+		f.Ip = v
+	}
+
+	if v, ok := annotation[AnnotationPodSubnet]; !ok {
+		return nil
+	} else {
+		f.Subnet = v
+	}
+
+	if v, ok := annotation[AnnotationPodGateway]; !ok {
+		return nil
+	} else {
+		f.Gateway = v
+	}
+
+	if v, ok := annotation[AnnotationPodVlan]; !ok {
+		f.Vlan = "-1"
+	} else {
+		f.Vlan = v
+	}
+	return f
 }
