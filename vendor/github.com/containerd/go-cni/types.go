@@ -31,6 +31,8 @@ const (
 	AnnotationPodGateway = "wocloud.cn/floating-gateway"
 	// AnnotationPodVlan is in pod annotation
 	AnnotationPodVlan = "wocloud.cn/floating-vlan"
+	// AnnotationPodRoutes is in pod annotation
+	AnnotationPodRoutes = "wocloud.cn/floating-routes"
 )
 
 type config struct {
@@ -58,7 +60,9 @@ type FloatingIP struct {
 	Subnet  string
 	Gateway string
 	// Vlan is -1 stand for no vlan
-	Vlan string
+	Vlan   string
+	Routes string
+	// Flag stand whether use Floatingip feature
 	Flag bool
 }
 
@@ -88,6 +92,13 @@ func CreateFloatingIP(annotation map[string]string) *FloatingIP {
 	} else {
 		f.Vlan = v
 	}
+
+	if v, ok := annotation[AnnotationPodRoutes]; !ok {
+		f.Routes = `[]`
+	} else {
+		f.Routes = v
+	}
+
 	f.Flag = true
 	return f
 }
