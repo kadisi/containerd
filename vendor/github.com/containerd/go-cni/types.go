@@ -59,6 +59,7 @@ type FloatingIP struct {
 	Gateway string
 	// Vlan is -1 stand for no vlan
 	Vlan string
+	Flag bool
 }
 
 func CreateFloatingIP(annotation map[string]string) *FloatingIP {
@@ -87,5 +88,6 @@ func CreateFloatingIP(annotation map[string]string) *FloatingIP {
 	} else {
 		f.Vlan = v
 	}
+	f.Flag = true
 	return f
 }
