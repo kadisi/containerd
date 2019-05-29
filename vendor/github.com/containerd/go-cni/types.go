@@ -20,6 +20,7 @@ const (
 	CNIPluginName        = "cni"
 	DefaultNetDir        = "/etc/cni/net.d"
 	DefaultCNIDir        = "/opt/cni/bin"
+	DefaultMaxConfNum    = 1
 	VendorCNIDirTemplate = "%s/opt/%s/bin"
 	DefaultPrefix        = "eth"
 
@@ -36,9 +37,10 @@ const (
 )
 
 type config struct {
-	pluginDirs    []string
-	pluginConfDir string
-	prefix        string
+	pluginDirs       []string
+	pluginConfDir    string
+	pluginMaxConfNum int
+	prefix           string
 }
 
 type PortMapping struct {

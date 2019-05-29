@@ -49,9 +49,10 @@ type libcni struct {
 func defaultCNIConfig() *libcni {
 	return &libcni{
 		config: config{
-			pluginDirs:    []string{DefaultCNIDir},
-			pluginConfDir: DefaultNetDir,
-			prefix:        DefaultPrefix,
+			pluginDirs:       []string{DefaultCNIDir},
+			pluginConfDir:    DefaultNetDir,
+			pluginMaxConfNum: DefaultMaxConfNum,
+			prefix:           DefaultPrefix,
 		},
 		cniConfig: &cnilibrary.CNIConfig{
 			Path: []string{DefaultCNIDir},
